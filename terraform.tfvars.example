@@ -1,0 +1,9 @@
+name = "al2023"
+# Run the pipeline every day at 00:00 UTC
+# schedule_expression = "cron(0 0 * * ? *)"
+# Examples when (valid) subnet and security IDs need to be provided
+# subnet_id= "subnet-12345"
+# security_group_ids= [
+#     "sg-12345",
+#     "sg-67890",
+# ]
