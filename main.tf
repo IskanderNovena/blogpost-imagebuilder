@@ -30,19 +30,19 @@ resource "aws_imagebuilder_component" "set_timezone" {
 resource "aws_imagebuilder_image_recipe" "this" {
   # Currently the service only supports x86-based images for import or export.
   name         = join("-", [var.name, "image-recipe"])
-  parent_image = "arn:aws:imagebuilder:eu-west-1:aws:image/amazon-linux-2023-ecs-optimized-x86/x.x.x"
+  parent_image = "arn:aws:imagebuilder:eu-west-1:aws:image/ubuntu-server-24-lts-x86/x.x.x" # "arn:aws:imagebuilder:eu-west-1:aws:image/amazon-linux-2023-ecs-optimized-x86/x.x.x"
   version      = "1.0.0"
 
   block_device_mapping {
     # The device name is the same device name as the root volume of the selected AMI,
     # which means we're overriding (some of) the root disk configuration in the AMI.
     # In this case we're increasing the size of the disk from 20 GB to 40 GB.
-    device_name = "/dev/xvda"
+    device_name = "/dev/sda1" # "/dev/xvda"
     no_device   = false
 
     ebs {
       delete_on_termination = true
-      volume_size           = 40
+      volume_size           = 10
       volume_type           = "gp3"
       encrypted             = false
       iops                  = 3000
@@ -127,7 +127,7 @@ resource "aws_imagebuilder_distribution_configuration" "this" {
   }
 }
 
-# Creat the Image Builder pipeline
+# Create the Image Builder pipeline
 resource "aws_imagebuilder_image_pipeline" "this" {
   name                             = join("-", [var.name, "image-pipeline"])
   description                      = "Pipeline to create the custom image for ${var.name}"
