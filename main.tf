@@ -146,7 +146,11 @@ resource "aws_imagebuilder_image_pipeline" "this" {
   }
 
   # When changing the workflow from default, an execution role must also be provided
-  execution_role = "arn:aws:iam::${data.aws_caller_identity.account.account_id}:role/aws-service-role/imagebuilder.amazonaws.com/AWSServiceRoleForImageBuilder"
+  execution_role = aws_iam_service_linked_role.imagebuilder.arn
+  # If the Image Builder service-linked role was created outside of this project, comment out above line and uncomment the next.
+  # Also comment out the service-linked role resource in iam.tf, lines 1-6.
+  # execution_role = "arn:aws:iam::${data.aws_caller_identity.account.account_id}:role/aws-service-role/imagebuilder.amazonaws.com/AWSServiceRoleForImageBuilder"
+
   workflow {
     # We're setting an AWS managed workflow, that only executes Build-steps of the component. No testing or validation is done.
     workflow_arn = "arn:aws:imagebuilder:${data.aws_region.current.name}:aws:workflow/build/build-image/x.x.x"

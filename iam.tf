@@ -1,3 +1,10 @@
+# Create the AWSServiceRoleForImageBuilder service-linked role
+# NOTE: This role could already be present when you've worked with Image Builder before.
+# If so, comment out this resource and change the execution_role for the aws_imagebuilder_image_pipeline in main.tf, line 148-152.
+resource "aws_iam_service_linked_role" "imagebuilder" {
+  aws_service_name = "imagebuilder.amazonaws.com"
+}
+
 # Create the Image Builder Build role
 resource "aws_iam_role" "imagebuilder_build" {
   name = join("-", ["Ec2ImageBuilderBuildRole", var.name])
