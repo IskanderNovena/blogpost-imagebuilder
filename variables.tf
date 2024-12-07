@@ -21,7 +21,7 @@ variable "schedule_expression" {
 
 variable "image_export_format" {
   type        = string
-  description = "Image format to do the inital AMI export to."
+  description = "Image format to do the initial AMI export to."
   default     = "vmdk"
   validation {
     condition     = contains(["vmdk", "vhd", "raw"], var.image_export_format)
