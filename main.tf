@@ -90,8 +90,8 @@ resource "aws_imagebuilder_infrastructure_configuration" "this" {
   terminate_instance_on_failure = true
   # When not providing a subnet id and security group id(s),
   # Image Builder uses a subnet in the default VPC with the default security group.
-  security_group_ids = var.security_group_ids
-  subnet_id          = var.subnet_id
+  security_group_ids = [aws_security_group.imagebuilder_instances.id]
+  subnet_id          = element(module.vpc.public_subnets, 0)
 
   instance_metadata_options {
     http_tokens                 = "required"

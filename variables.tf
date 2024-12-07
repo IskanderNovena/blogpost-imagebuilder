@@ -42,3 +42,9 @@ variable "security_group_ids" {
   default     = null
   nullable    = true
 }
+
+variable "vpc_cidr" {
+  type        = string
+  description = "CIDR block to use for the VPC."
+  default     = "10.0.0.0/16"
+}
