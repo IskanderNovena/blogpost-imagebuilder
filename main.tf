@@ -99,7 +99,7 @@ resource "aws_imagebuilder_infrastructure_configuration" "this" {
   }
 
   tags = {
-    ImageType = "CustomisedAmazonLinux2023Image"
+    ImageType = "CustomisedUbuntu2404Image"
   }
 }
 
@@ -116,7 +116,7 @@ resource "aws_imagebuilder_distribution_configuration" "this" {
       name       = join("-", [var.name, "{{ imagebuilder:buildDate }}-{{ imagebuilder:buildVersion }}"])
       kms_key_id = null
       ami_tags = {
-        ImageType = "CustomisedAmazonLinux2023Image"
+        ImageType = "CustomisedUbuntu2404Image"
       }
     }
     s3_export_configuration {
@@ -171,4 +171,9 @@ resource "aws_imagebuilder_image_pipeline" "this" {
       aws_imagebuilder_image_recipe.this
     ]
   }
+}
+
+resource "aws_cloudwatch_log_group" "imagebuilder" {
+  name              = "/aws/imagebuilder/${aws_imagebuilder_image_recipe.this.name}"
+  retention_in_days = 7
 }
